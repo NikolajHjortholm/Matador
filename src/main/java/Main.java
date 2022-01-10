@@ -8,9 +8,12 @@ public class Main {
 
     public static void main(String[] args) {
 
-        GuiController GuiC = new GuiController();
+        GuiController gui = new GuiController();
+        gui.initializeGui();
 
-        GuiC.initializeGui();
+        Board b = new Board();
+        b.initializeGame();
+
 
     }
 
