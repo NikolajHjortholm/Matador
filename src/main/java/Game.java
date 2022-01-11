@@ -17,6 +17,7 @@ public class Game {
 
         //rotation virker ikke.
         gui.setDice(dice.getDie1(),135, dice.getDie2(), 135);
+        int dices = dice.total();
 
         for (int i=0; i<=39; i++){
 
