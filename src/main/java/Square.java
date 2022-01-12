@@ -1,7 +1,11 @@
 import gui_fields.*;
 
 public class Square {
-    private static GUI_Start start;
+
+    public static Square[] allSquares = new Square[40];
+
+
+
 
     public static void Square() {
         /** GUI_Field[] fields = {

@@ -22,7 +22,7 @@ public class Dice {
         return die2;
 
     }
-    public int total() {
+    public int getTotal() {
         return die1 + die2;
 
     }
