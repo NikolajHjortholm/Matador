@@ -2,7 +2,61 @@ import gui_fields.GUI_Field;
 import gui_fields.GUI_Player;
 import gui_main.GUI;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.sql.SQLOutput;
+
 public class GuiController {
+
+    public static void readFile () throws IOException {
+
+        String path = "src/main/java/files/fields.csv";
+
+        int playerPosition = (int)Math.floor(Math.random()*(39-0+1)+0);
+
+        //Reads what type of square the player has landed on
+        String reader = Files.readAllLines(Paths.get(path)).get(playerPosition);
+        String[] value = reader.split(",");;
+        System.out.println(value[2]);
+
+        //If player lands on street
+        if (value[2].equals(" street")){
+            System.out.println("Price:" + value[3] + " House price:" + value[4] + " Rent 0:" + value[5] + " Rent 1:" + value[6] + " Rent 2:" + value[7] +" Rent 3:" + value[8] +" Rent 4:" + value[9] +" Rent 5:" + value[10]);
+
+            int Money = 30000;
+            int change=Money-Integer.valueOf(value[3]);
+            System.out.println(Integer.valueOf(value[3]));
+            System.out.println();
+            System.out.println(change);
+        }
+        //If player lands on chance
+        if (value[2].equals(" chance")){
+            System.out.println("You landed on chance");
+        }
+        //if player lands on tax
+        if (value[2].equals(" tax")){
+            System.out.println("You landed on tax");
+        }
+        if (value[2].equals(" ferry")){
+            System.out.println("You landed on ferry");
+        }
+        if (value[2].equals(" jail")){
+            System.out.println("You landed on jail");
+        }
+        if (value[2].equals(" brewery")){
+            System.out.println("You landed on brewery");
+        }
+        if (value[2].equals(" refugee")){
+            System.out.println("You landed on refugee");
+        }
+
+    }
+
+
 
     public void initializeGui (){
 
