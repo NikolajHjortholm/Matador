@@ -1,28 +1,39 @@
+import gui_fields.GUI_Field;
+import gui_fields.GUI_Player;
+
+import java.util.Arrays;
+
 public class Player {
 
-    private String Name;
-    private int moneyHeld = 20;
-    private int age;
-    public int getPosition;
 
-    public Player() {
+    public static int playerCount = 0;
+    public static GUI_Player[] players;
+
+    public static void Player() {
+
+        playerCount = Game.gui.getUserInteger("Enter player amount",2,6);
+        players = new GUI_Player[playerCount];
+
+        int balance = 30000;
+
+        String input = null;
+        GUI_Player player = null;
+
+        for (int i =0; i<playerCount; i++) {
+
+            input = Game.gui.getUserString("Enter names: ");
+            player = new GUI_Player(input, balance);
+            players[i] = player;
+            Game.gui.addPlayer(player);
+            GUI_Field field = Game.gui.getFields()[0];
+            player.getCar().setPosition(field);
+            System.out.println(players[i]);
+        }
     }
 
-    public void useMoney(int amount){this.moneyHeld -=amount;}
+    public static void currentPlayer() {
 
-    public int getMoneyHeld(){return this.moneyHeld;}
 
-    public String getName(){
-        return this.Name;}
 
-    public void setName(String Name){
-        this.Name = Name;}
-
-    public int getAge(){
-        return this.age;}
-
-    public void setAge(int age){
-        this.age=age;}
-
+    }
 }
-
