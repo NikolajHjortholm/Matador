@@ -6,13 +6,7 @@ import java.nio.file.Paths;
 
 public class Square {
 
-    Brewery brewery = new Brewery();
-    Chance chance = new Chance();
-    Ferry ferry = new Ferry();
-    Parking parking = new Parking();
-    Prison prison = new Prison();
-    Property property = new Property();
-    Tax tax = new Tax();
+
 
     public void landOnSquare (int currentPosition) throws IOException {
 
@@ -52,5 +46,52 @@ public class Square {
     }
 
 
-}
+    public static void Square() {
+        /** GUI_Field[] fields = {
+                new GUI_Start(),
+                new GUI_Street(),
+                new GUI_Chance(),
+                new GUI_Street(),
+                new GUI_Tax(),
+                new GUI_Shipping(),
+                new GUI_Street(),
+                new GUI_Chance(),
+                new GUI_Street(),
+                new GUI_Street(),
+                new GUI_Jail(),
+                new GUI_Street(),
+                new GUI_Brewery(),
+                new GUI_Street(),
+                new GUI_Street(),
+                new GUI_Shipping(),
+                new GUI_Street(),
+                new GUI_Chance(),
+                new GUI_Street(),
+                new GUI_Street(),
+                new GUI_Refuge(),
+                new GUI_Street(),
+                new GUI_Chance(),
+                new GUI_Street(),
+                new GUI_Street(),
+                new GUI_Shipping(),
+                new GUI_Street(),
+                new GUI_Street(),
+                new GUI_Brewery(),
+                new GUI_Street(),
+                new GUI_Jail(),
+                new GUI_Street(),
+                new GUI_Street(),
+                new GUI_Chance(),
+                new GUI_Street(),
+                new GUI_Shipping(),
+                new GUI_Chance(),
+                new GUI_Street(),
+                new GUI_Tax(),
+                new GUI_Street(),
 
+
+        };
+**/
+
+    }
+}
