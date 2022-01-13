@@ -8,7 +8,9 @@ public class Square {
 
     Property[] properties = new Property[40];
     Boolean[] landedOn = new Boolean[40];
+    String path = "src/main/java/files/fields.csv";
 
+    int rName=0, rPosition=1, rType=2, rPrice=3, rHousePrice=4, rRent0=5, rRent1=6, rRent2=7, rRent3=8, rRent4=9, rRent5=10;
 
     public Square() {
 
@@ -17,58 +19,63 @@ public class Square {
         }
     }
 
-    public void landOnSquare (int currentPosition, int currentPlayer) throws IOException {
+    public <Player> void landOnSquare (int currentPosition, Player currentPlayer) throws IOException {
 
-        String path = "src/main/java/files/fields.csv";
 
-        //Reads what type of square the player has landed on
-        String reader = Files.readAllLines(Paths.get(path)).get(currentPosition+1);
-        String[] value = reader.split(",");
 
         //If player lands on street
-        if (value[2].equals(" street")){
-            System.out.println("Price:" + value[3] + " House price:" + value[4] + " Rent 0:" + value[5] + " Rent 1:" + value[6] + " Rent 2:" + value[7] +" Rent 3:" + value[8] +" Rent 4:" + value[9] +" Rent 5:" + value[10]);
-
-            int tempPosition = Integer.parseInt(value[1]);
+        if (reader(currentPosition, rType).equals(" street")){
 
 
+            int tempPosition = Integer.parseInt((reader(currentPosition, 1)));
+
+            //initiates square landed on
             if (!landedOn[tempPosition]) {
 
                 landedOn[tempPosition] = true;
 
                 properties[tempPosition] = new Property();
                 properties[tempPosition].position=tempPosition;
-                properties[tempPosition].ownedBy=1;
-                properties[tempPosition].owned=true;
                 System.out.println("Nice");
-
             }
+
+            //goes to property
+            properties[tempPosition].landOnProperty(currentPosition, currentPlayer);
+
 
 
 
         }
         //If player lands on chance
-        if (value[2].equals(" chance")){
+        if ((reader(currentPosition, rType).equals(" chance"))){
             System.out.println("You landed on chance");
         }
         //if player lands on tax
-        if (value[2].equals(" tax")){
+        if ((reader(currentPosition, rType).equals(" tax"))){
             System.out.println("You landed on tax");
         }
-        if (value[2].equals(" ferry")){
+        if ((reader(currentPosition, rType).equals(" ferry"))){
             System.out.println("You landed on ferry");
         }
-        if (value[2].equals(" jail")){
+        if ((reader(currentPosition, rType).equals(" jail"))){
             System.out.println("You landed on jail");
         }
-        if (value[2].equals(" brewery")){
+        if ((reader(currentPosition, rType).equals(" brewery"))){
             System.out.println("You landed on brewery");
         }
-        if (value[2].equals(" refugee")){
+        if ((reader(currentPosition, rType).equals(" refugee"))){
             System.out.println("You landed on refugee");
         }
 
 
+    }
+
+    public String reader(int currentPosition, int line) throws IOException {
+
+        String reader = Files.readAllLines(Paths.get(path)).get(currentPosition+1);
+        String[] value = reader.split(",");
+
+        return value[line];
     }
 
 

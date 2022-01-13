@@ -15,7 +15,10 @@ public class Game {
 
     Square squares = new Square();
 
-
+    public Game() {
+        Square.Square();
+        gui = new GUI();
+    }
 
     //Starts game
     public void startGame() throws IOException {
@@ -27,10 +30,7 @@ public class Game {
         mainLoop();
     }
 
-    public Game() {
-        Square.Square();
-        gui = new GUI();
-    }
+
 
     public static int playerCount = 0;
     public static GUI_Player[] players;
@@ -94,7 +94,7 @@ public class Game {
             players[currentPlayer].getCar().setPosition(gui.getFields()[(fieldIndex + dices)%gui.getFields().length]);
 
 
-            squares.landOnSquare(aPlayers[currentPlayer].currentPosition, aPlayers[currentPlayer].playerNumber);
+            squares.landOnSquare(aPlayers[currentPlayer].currentPosition, aPlayers[currentPlayer]);
 
 
 
