@@ -51,6 +51,7 @@ public class Game {
 
 
             aPlayers[i] = new Player();
+            aPlayers[i].playerNumber = i;
 
             player = new GUI_Player(input, aPlayers[i].balance);
             players[i] = player;
@@ -93,7 +94,7 @@ public class Game {
             players[currentPlayer].getCar().setPosition(gui.getFields()[(fieldIndex + dices)%gui.getFields().length]);
 
 
-            squares.landOnSquare(aPlayers[currentPlayer].currentPosition);
+            squares.landOnSquare(aPlayers[currentPlayer].currentPosition, aPlayers[currentPlayer].playerNumber);
 
 
 

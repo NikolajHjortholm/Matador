@@ -6,9 +6,18 @@ import java.nio.file.Paths;
 
 public class Square {
 
+    Property[] properties = new Property[40];
+    Boolean[] landedOn = new Boolean[40];
 
 
-    public void landOnSquare (int currentPosition) throws IOException {
+    public Square() {
+
+        for (int i = 0; i < 40; i++) {
+            landedOn[i] = false;
+        }
+    }
+
+    public void landOnSquare (int currentPosition, int currentPlayer) throws IOException {
 
         String path = "src/main/java/files/fields.csv";
 
@@ -19,6 +28,23 @@ public class Square {
         //If player lands on street
         if (value[2].equals(" street")){
             System.out.println("Price:" + value[3] + " House price:" + value[4] + " Rent 0:" + value[5] + " Rent 1:" + value[6] + " Rent 2:" + value[7] +" Rent 3:" + value[8] +" Rent 4:" + value[9] +" Rent 5:" + value[10]);
+
+            int tempPosition = Integer.parseInt(value[1]);
+
+
+            if (!landedOn[tempPosition]) {
+
+                landedOn[tempPosition] = true;
+
+                properties[tempPosition] = new Property();
+                properties[tempPosition].position=tempPosition;
+                properties[tempPosition].ownedBy=1;
+                properties[tempPosition].owned=true;
+                System.out.println("Nice");
+
+            }
+
+
 
         }
         //If player lands on chance
