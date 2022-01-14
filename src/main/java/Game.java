@@ -1,7 +1,6 @@
 import gui_fields.GUI_Field;
 import gui_fields.GUI_Player;
 import gui_main.GUI;
-import squares.Square;
 
 import java.io.IOException;
 
@@ -12,12 +11,14 @@ public class Game {
 
     int maxPlayerCount = 6;
     Player [] aPlayers = new Player [maxPlayerCount];
-
     Square squares = new Square();
 
+
     public Game() {
+
         Square.Square();
         gui = new GUI();
+
     }
 
     //Starts game
@@ -93,7 +94,7 @@ public class Game {
 
             players[currentPlayer].getCar().setPosition(gui.getFields()[(fieldIndex + dices)%gui.getFields().length]);
 
-
+            System.out.println(aPlayers[currentPlayer].currentPosition);
             squares.landOnSquare(aPlayers[currentPlayer].currentPosition, aPlayers[currentPlayer]);
 
 
@@ -108,6 +109,7 @@ public class Game {
         }
 
     }
+
 
     public void initializeGui (){
 
