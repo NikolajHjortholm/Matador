@@ -44,7 +44,7 @@ public class Game {
 
     public void createPlayers() {
 
-        playerCount = Game.gui.getUserInteger("Enter player amount",2,6);
+        playerCount = Game.gui.getUserInteger("Enter player amount between 2 and 6",2,6);
         players = new GUI_Player[playerCount];
 
 
@@ -57,7 +57,7 @@ public class Game {
             input = Game.gui.getUserString("Enter names: ");
 
 
-            aPlayers[i] = new Player();
+            aPlayers[i] = new Player(input, 30000);
             aPlayers[i].playerNumber = i;
 
             player = new GUI_Player(input, aPlayers[i].balance);
@@ -76,11 +76,12 @@ public class Game {
 
         // Enter main loop for the game
         while(true){
-            gui.getUserButtonPressed("Roll dice: ","Roll");
+            gui.getUserButtonPressed(aPlayers[currentPlayer].name + " Roll dice: "," Roll ");
 
-            //rotation virker ikke.
+
             dice.roll();
-            gui.setDice(dice.getDie1(),135, dice.getDie2(), 135);
+            dice.rota();
+            gui.setDice(dice.getDie1(),dice.getRot1(), dice.getDie2(), dice.getRot2());
             int dices = dice.getTotal();
 
             aPlayers[currentPlayer].currentPosition =aPlayers[currentPlayer].currentPosition +dice.getTotal();
@@ -108,7 +109,6 @@ public class Game {
                 players[i].setBalance(aPlayers[i].balance);
             }
 
-            //String button = gui.getUserButtonPressed("Choose player to move: ");
             currentPlayer++;
             if (currentPlayer == players.length) {
                 currentPlayer = 0;
@@ -123,6 +123,7 @@ public class Game {
         String type;
         Player aCurrentPlayer = aPlayers[currentPlayer];
         int currentPosition = aCurrentPlayer.currentPosition;
+        int anyPosition;
         type=squares.getSquare(aCurrentPlayer.currentPosition, aCurrentPlayer);
 
         if ((type).equals(" street")){
@@ -130,9 +131,7 @@ public class Game {
 
             //initiates square landed on
             if (!landedOn[currentPosition]) {
-
                 landedOn[currentPosition] = true;
-
                 squares.properties[currentPosition] = new Property(currentPosition);
 
             }
@@ -140,40 +139,50 @@ public class Game {
             //goes to property
             if (!squares.properties[currentPosition].owned){
 
-
-
-                if(gui.getUserButtonPressed("Do you want to buy", "Yes", "No").equals("Yes")){
-
+                if (gui.getUserButtonPressed(aCurrentPlayer.name + " do you want to buy this square ", " Yes ", " No ").equals(" Yes ")){
                     aCurrentPlayer.balance=aCurrentPlayer.balance-squares.properties[currentPosition].getPrice();
                     squares.properties[currentPosition].owned=true;
                     squares.properties[currentPosition].ownedBy=currentPlayer;
-                    System.out.println("you bought" + squares.properties[currentPosition].name);
 
+                    if (aCurrentPlayer.balance < squares.properties[currentPosition].getPrice()) {
+                        gui.showMessage(" Not Enough Money: ");
+                    }
+                    else {
+                        gui.showMessage(" You bought " + squares.properties[currentPosition].name);
+                    }
                     return;
-
-                } else {
-
-                   return;
-
                 }
+                else {
+                    return;
+                }
+            }
+            if (squares.properties[currentPosition].ownedBy==currentPlayer){
+                System.out.println(" you landed on your own square ");
 
-
-            }else if(squares.properties[currentPosition].ownedBy==currentPlayer){
-
-                System.out.println("you landed on you're own square");
-
-            }else if(!squares.properties[currentPosition].mortgaged){
-
+            }
+            if(!squares.properties[currentPosition].mortgaged){
                 int loss = squares.properties[currentPosition].getRent();
                 aCurrentPlayer.balance=aCurrentPlayer.balance-loss;
-                System.out.println("you landed on" + squares.properties[currentPosition].name);
+                System.out.println(" you landed on " + squares.properties[currentPosition].name + ":");
                 aPlayers[squares.properties[currentPosition].ownedBy].balance=aPlayers[squares.properties[currentPosition].ownedBy].balance+loss;
 
+                if (aCurrentPlayer.balance < squares.properties[currentPosition].getRent()) {
+                    gui.showMessage( " Get the money by monday: ");
+
+                }
+                /**
+                else if (aCurrentPlayer.any == squares.getSquare() {
+
+
+                }
+                 **/
+                return;
             }
 
 
 
         }
+
         //If player lands on chance
         if ((type).equals(" chance")){
             System.out.println("You landed on chance");
