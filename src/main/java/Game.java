@@ -89,6 +89,7 @@ public class Game {
             }
 
 
+
             GUI_Field field  = players[currentPlayer].getCar().getPosition();
             int fieldIndex = 0;
             for (int i = 0; i < gui.getFields().length; i++) {
@@ -102,9 +103,10 @@ public class Game {
 
             System.out.println(aPlayers[currentPlayer].currentPosition);
 
-
-
-
+            landOnSquare();
+            for (int i=0; i<players.length;i++) {
+                players[i].setBalance(aPlayers[i].balance);
+            }
 
             //String button = gui.getUserButtonPressed("Choose player to move: ");
             currentPlayer++;
@@ -138,12 +140,34 @@ public class Game {
             //goes to property
             if (!squares.properties[currentPosition].owned){
 
-                aCurrentPlayer.balance=aCurrentPlayer.balance-squares.properties[currentPosition].getPrice();
 
+
+                if(gui.getUserButtonPressed("Do you want to buy", "Yes", "No").equals("Yes")){
+
+                    aCurrentPlayer.balance=aCurrentPlayer.balance-squares.properties[currentPosition].getPrice();
+                    squares.properties[currentPosition].owned=true;
+                    squares.properties[currentPosition].ownedBy=currentPlayer;
+                    System.out.println("you bought" + squares.properties[currentPosition].name);
+
+                    return;
+
+                } else {
+
+                   return;
+
+                }
+
+
+            }else if(squares.properties[currentPosition].ownedBy==currentPlayer){
+
+                System.out.println("you landed on you're own square");
 
             }else if(!squares.properties[currentPosition].mortgaged){
 
-                aCurrentPlayer.balance=aCurrentPlayer.balance-squares.properties[currentPosition].getRent();
+                int loss = squares.properties[currentPosition].getRent();
+                aCurrentPlayer.balance=aCurrentPlayer.balance-loss;
+                System.out.println("you landed on" + squares.properties[currentPosition].name);
+                aPlayers[squares.properties[currentPosition].ownedBy].balance=aPlayers[squares.properties[currentPosition].ownedBy].balance+loss;
 
             }
 

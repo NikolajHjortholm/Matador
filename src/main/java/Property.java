@@ -14,12 +14,12 @@ public class Property extends Square {
 
         ownedBy = 0;
         mortgaged = false;
-        owned = true;
+        owned = false;
         position=pos;
 
         name = reader(position, rName);
-        price = intreader(position, price);
-        housePrice = intreader(position,housePrice);
+        price = intreader(position, rPrice);
+        housePrice = intreader(position,rHousePrice);
         rent0 = intreader(position, rRent0);
         rent1 = intreader(position, rRent1);
         rent2 = intreader(position, rRent2);
@@ -39,6 +39,7 @@ public class Property extends Square {
     }
 
     public int getRent() {
+
 
         return rent0;
 
