@@ -8,6 +8,8 @@ public class Property extends Square {
     int ownedBy, price, mortgageValue, position, housePrice, rent0, rent1, rent2, rent3, rent4, rent5;
     boolean mortgaged, owned;
 
+
+
     public Property(int pos) throws IOException {
 
         ownedBy = 0;
@@ -16,8 +18,8 @@ public class Property extends Square {
         position=pos;
 
         name = reader(position, rName);
-
-        name = reader(position, rHousePrice);
+        price = intreader(position, price);
+        housePrice = intreader(position,housePrice);
         rent0 = intreader(position, rRent0);
         rent1 = intreader(position, rRent1);
         rent2 = intreader(position, rRent2);
@@ -41,5 +43,20 @@ public class Property extends Square {
         return rent0;
 
     }
+
+
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getHousePrice() {
+        return housePrice;
+    }
+
+    public void setHousePrice(int housePrice) {
+        this.housePrice = housePrice;
+    }
+
 
 }

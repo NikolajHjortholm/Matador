@@ -5,7 +5,7 @@ import java.nio.file.Paths;
 public class Square{
 
     Property[] properties = new Property[40];
-    Boolean[] landedOn = new Boolean[40];
+
     String path = "src/main/java/files/fields.csv";
 
     int rName=0, rPosition=1, rType=2, rPrice=3, rHousePrice=4, rRent0=5, rRent1=6, rRent2=7, rRent3=8, rRent4=9, rRent5=10;
@@ -13,9 +13,7 @@ public class Square{
 
     public Square() {
 
-        for (int i = 0; i < 40; i++) {
-            landedOn[i] = false;
-        }
+
     }
 
 
@@ -39,57 +37,11 @@ public class Square{
     }
 
 
-    public void landOnSquare (int currentPosition, Player currentPlayer) throws IOException {
+    public String getSquare(int currentPosition, Player currentPlayer) throws IOException {
 
-    String type = reader(currentPosition, rType);
+        String type = reader(currentPosition, rType);
+        return type;
 
-        //If player lands on street
-        if ((type).equals(" street")){
-
-
-            //initiates square landed on
-            if (!landedOn[currentPosition]) {
-
-                landedOn[currentPosition] = true;
-
-                properties[currentPosition] = new Property(currentPosition);
-
-            }
-
-            //goes to property
-            if (!properties[currentPosition].owned){
-
-                currentPlayer.balance=currentPlayer.balance-properties[currentPosition].getPrice();
-
-            }else if(!properties[currentPosition].mortgaged){
-
-                currentPlayer.balance=currentPlayer.balance-properties[currentPosition].getRent();
-
-            }
-
-
-
-        }
-        //If player lands on chance
-        if ((type).equals(" chance")){
-            System.out.println("You landed on chance");
-        }
-        //if player lands on tax
-        if ((type).equals(" tax")){
-            System.out.println("You landed on tax");
-        }
-        if ((type).equals(" ferry")){
-            System.out.println("You landed on ferry");
-        }
-        if ((type).equals(" jail")){
-            System.out.println("You landed on jail");
-        }
-        if ((type).equals(" brewery")){
-            System.out.println("You landed on brewery");
-        }
-        if ((type).equals(" refugee")){
-            System.out.println("You landed on refugee");
-        }
 
 
     }

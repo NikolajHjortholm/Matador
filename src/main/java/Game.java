@@ -13,11 +13,17 @@ public class Game {
     Player [] aPlayers = new Player [maxPlayerCount];
     Square squares = new Square();
 
+    Boolean[] landedOn = new Boolean[40];
+
 
     public Game() {
 
         Square.Square();
         gui = new GUI();
+
+        for (int i = 0; i < 40; i++) {
+            landedOn[i] = false;
+        }
 
     }
 
@@ -95,7 +101,7 @@ public class Game {
             players[currentPlayer].getCar().setPosition(gui.getFields()[(fieldIndex + dices)%gui.getFields().length]);
 
             System.out.println(aPlayers[currentPlayer].currentPosition);
-            squares.landOnSquare(aPlayers[currentPlayer].currentPosition, aPlayers[currentPlayer]);
+
 
 
 
@@ -109,6 +115,64 @@ public class Game {
         }
 
     }
+
+    public void landOnSquare() throws IOException {
+        //If player lands on street
+        String type;
+        Player aCurrentPlayer = aPlayers[currentPlayer];
+        int currentPosition = aCurrentPlayer.currentPosition;
+        type=squares.getSquare(aCurrentPlayer.currentPosition, aCurrentPlayer);
+
+        if ((type).equals(" street")){
+
+
+            //initiates square landed on
+            if (!landedOn[currentPosition]) {
+
+                landedOn[currentPosition] = true;
+
+                squares.properties[currentPosition] = new Property(currentPosition);
+
+            }
+
+            //goes to property
+            if (!squares.properties[currentPosition].owned){
+
+                aCurrentPlayer.balance=aCurrentPlayer.balance-squares.properties[currentPosition].getPrice();
+
+
+            }else if(!squares.properties[currentPosition].mortgaged){
+
+                aCurrentPlayer.balance=aCurrentPlayer.balance-squares.properties[currentPosition].getRent();
+
+            }
+
+
+
+        }
+        //If player lands on chance
+        if ((type).equals(" chance")){
+            System.out.println("You landed on chance");
+        }
+        //if player lands on tax
+        if ((type).equals(" tax")){
+            System.out.println("You landed on tax");
+        }
+        if ((type).equals(" ferry")){
+            System.out.println("You landed on ferry");
+        }
+        if ((type).equals(" jail")){
+            System.out.println("You landed on jail");
+        }
+        if ((type).equals(" brewery")){
+            System.out.println("You landed on brewery");
+        }
+        if ((type).equals(" refugee")){
+            System.out.println("You landed on refugee");
+        }
+
+    }
+
 
 
     public void initializeGui (){
