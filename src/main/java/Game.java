@@ -28,13 +28,16 @@ public class Game {
 
     public void startGame() throws Exception {
         //Load squares
-        Square.initializeSquares();;
+        Square.initializeSquares();
+        //Load ChanceCard
+        Chance.initilizeChance();
         //Fixes gui
         initializeGui();
         //Player creation
         createPlayers();
         //Main loop of game
         mainLoop();
+
     }
 
 

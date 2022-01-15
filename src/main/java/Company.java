@@ -9,7 +9,6 @@ public class Company extends Square {
         int currentPosition = aCurrentPlayer.currentPosition;
         int anyPosition;
 
-        //goes to property
         if (!owned){
 
             if (game.gui.getUserButtonPressed(aCurrentPlayer.name + " do you want to buy "+name, " Yes ", " No ").equals(" Yes ")){

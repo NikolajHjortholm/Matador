@@ -38,7 +38,7 @@ public abstract class Square {
                 square = new Street(values);
             }
             else if (sq.equals("chance")) {
-                square = new Chance();
+                square = new Chance(values);
             }
             else if (sq.equals(("start"))) {
                 square = new Start();
