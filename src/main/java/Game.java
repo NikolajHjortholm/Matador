@@ -1,8 +1,11 @@
 import gui_fields.GUI_Field;
 import gui_fields.GUI_Player;
 import gui_main.GUI;
+import java.awt.Color;
 
 import java.io.IOException;
+
+import static java.awt.Color.*;
 
 public class Game {
 
@@ -13,15 +16,16 @@ public class Game {
     public int currentPlayer;
 
     int maxPlayerCount = 6;
-
+    
     public Player [] aPlayers = new Player [maxPlayerCount];
+    GUI_Field field;
+
 
 
     public Game() {
         gui = new GUI();
     }
 
-    //Starts game
     public void startGame() throws Exception {
         //Load squares
         Square.initializeSquares();;
@@ -62,6 +66,30 @@ public class Game {
             GUI_Field field = Game.gui.getFields()[0];
             player.getCar().setPosition(field);
             System.out.println(players[i]);
+
+            switch(i) {
+                case 0:
+                    player.getCar().setPrimaryColor(cyan);
+                    break;
+                case 1:
+                    player.getCar().setPrimaryColor(yellow);
+                    break;
+                case 2:
+                    player.getCar().setPrimaryColor(green);
+                    break;
+                case 3:
+                    player.getCar().setPrimaryColor(pink);
+                    break;
+                case 4:
+                    player.getCar().setPrimaryColor(gray);
+                    break;
+                case 5:
+                    player.getCar().setPrimaryColor(white);
+                    break;
+                default:
+                    break;
+            }
+
         }
     }
 
@@ -73,6 +101,7 @@ public class Game {
         // Enter main loop for the game
         while(true){
             gui.getUserButtonPressed(aPlayers[currentPlayer].name + " Roll dice: "," Roll ");
+
 
             dice.roll();
             dice.rota();
