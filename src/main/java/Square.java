@@ -32,7 +32,7 @@ public abstract class Square {
                 continue;
             }
             Square square = null;
-            String[] values = s.split(",");
+            String[] values = s.split(";");
             String sq = values[rType].trim();
             if (sq.equals("street")) {
                 square = new Street(values);
