@@ -1,8 +1,11 @@
 import gui_fields.GUI_Field;
 import gui_fields.GUI_Player;
 import gui_main.GUI;
+import java.awt.Color;
 
 import java.io.IOException;
+
+import static java.awt.Color.*;
 
 public class Game {
     static GUI gui;
@@ -14,6 +17,9 @@ public class Game {
     Square squares = new Square();
 
     Boolean[] landedOn = new Boolean[40];
+
+    GUI_Field field;
+
 
 
     public Game() {
@@ -66,6 +72,30 @@ public class Game {
             GUI_Field field = Game.gui.getFields()[0];
             player.getCar().setPosition(field);
             System.out.println(players[i]);
+
+            switch(i) {
+                case 0:
+                    player.getCar().setPrimaryColor(cyan);
+                    break;
+                case 1:
+                    player.getCar().setPrimaryColor(yellow);
+                    break;
+                case 2:
+                    player.getCar().setPrimaryColor(green);
+                    break;
+                case 3:
+                    player.getCar().setPrimaryColor(pink);
+                    break;
+                case 4:
+                    player.getCar().setPrimaryColor(gray);
+                    break;
+                case 5:
+                    player.getCar().setPrimaryColor(white);
+                    break;
+                default:
+                    break;
+            }
+
         }
     }
 
@@ -87,8 +117,11 @@ public class Game {
             aPlayers[currentPlayer].currentPosition =aPlayers[currentPlayer].currentPosition +dice.getTotal();
             if (aPlayers[currentPlayer].currentPosition > 39) {
                 aPlayers[currentPlayer].currentPosition -= 40;
+                //Player passes start
+                aPlayers[currentPlayer].balance=aPlayers[currentPlayer].balance+2000;
             }
 
+            players[currentPlayer].setBalance(aPlayers[currentPlayer].balance);
 
 
             GUI_Field field  = players[currentPlayer].getCar().getPosition();
@@ -101,8 +134,6 @@ public class Game {
             }
 
             players[currentPlayer].getCar().setPosition(gui.getFields()[(fieldIndex + dices)%gui.getFields().length]);
-
-            System.out.println(aPlayers[currentPlayer].currentPosition);
 
             landOnSquare();
             for (int i=0; i<players.length;i++) {
@@ -140,31 +171,37 @@ public class Game {
             if (!squares.properties[currentPosition].owned){
 
                 if (gui.getUserButtonPressed(aCurrentPlayer.name + " do you want to buy this square ", " Yes ", " No ").equals(" Yes ")){
-                    aCurrentPlayer.balance=aCurrentPlayer.balance-squares.properties[currentPosition].getPrice();
-                    squares.properties[currentPosition].owned=true;
-                    squares.properties[currentPosition].ownedBy=currentPlayer;
 
-                    if (aCurrentPlayer.balance < squares.properties[currentPosition].getPrice()) {
-                        gui.showMessage(" Not Enough Money: ");
+                    //Does player have enough money?
+                    if (aCurrentPlayer.balance-squares.properties[currentPosition].getPrice()<0) {
+                        gui.showMessage(" Not Enough Money ");
                     }
+                    //Player buys property
                     else {
                         gui.showMessage(" You bought " + squares.properties[currentPosition].name);
+                        field = Game.gui.getFields()[currentPosition];
+                        field.setBackGroundColor(players[currentPlayer].getCar().getPrimaryColor());
+                        field.setForeGroundColor(black);
+                        //change name
+                        //field.setTitle("\"" + field.getTitle() + "\"");
+                        field.setSubText("Rent: $" + squares.properties[currentPosition].getStringRent());
+                        aCurrentPlayer.balance=aCurrentPlayer.balance-squares.properties[currentPosition].getPrice();
+                        squares.properties[currentPosition].owned=true;
+                        squares.properties[currentPosition].ownedBy=currentPlayer;
                     }
-                    return;
                 }
-                else {
-                    return;
-                }
+                return;
             }
             if (squares.properties[currentPosition].ownedBy==currentPlayer){
-                System.out.println(" you landed on your own square ");
+                gui.showMessage( " You landed on your own square ");
 
-            }
-            if(!squares.properties[currentPosition].mortgaged){
+            }else if(!squares.properties[currentPosition].mortgaged){
                 int loss = squares.properties[currentPosition].getRent();
                 aCurrentPlayer.balance=aCurrentPlayer.balance-loss;
-                System.out.println(" you landed on " + squares.properties[currentPosition].name + ":");
+
                 aPlayers[squares.properties[currentPosition].ownedBy].balance=aPlayers[squares.properties[currentPosition].ownedBy].balance+loss;
+
+                gui.showMessage( " " + aPlayers[currentPlayer].name + " paid " + loss + "$ to " + aPlayers[squares.properties[currentPosition].ownedBy].name);
 
                 if (aCurrentPlayer.balance < squares.properties[currentPosition].getRent()) {
                     gui.showMessage( " Get the money by monday: ");
@@ -219,6 +256,7 @@ public class Game {
         //field.setTitle("My title");
         field.setSubText("");
         field.setDescription("Receive $2,000 when passing start");
+
 
         field = gui.getFields()[1];
         field.setTitle("Rødovrevej");

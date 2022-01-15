@@ -7,6 +7,7 @@ public class Property extends Square {
     String name;
     int ownedBy, price, mortgageValue, position, housePrice, rent0, rent1, rent2, rent3, rent4, rent5;
     boolean mortgaged, owned;
+    int [] street;
 
 
 
@@ -28,6 +29,8 @@ public class Property extends Square {
         rent5 = intreader(position, rRent5);
 
 
+
+
     }
 
 
@@ -42,6 +45,13 @@ public class Property extends Square {
 
 
         return rent0;
+
+    }
+
+    public String getStringRent() {
+
+
+        return String.valueOf(rent0);
 
     }
 
