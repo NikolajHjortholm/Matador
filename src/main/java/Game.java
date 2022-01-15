@@ -5,30 +5,26 @@ import gui_main.GUI;
 import java.io.IOException;
 
 public class Game {
-    static GUI gui;
+
+    public static GUI gui;
+
     Dice dice = new Dice();
-    int currentPlayer;
+
+    public int currentPlayer;
 
     int maxPlayerCount = 6;
-    Player [] aPlayers = new Player [maxPlayerCount];
-    Square squares = new Square();
 
-    Boolean[] landedOn = new Boolean[40];
+    public Player [] aPlayers = new Player [maxPlayerCount];
 
 
     public Game() {
-
-        Square.Square();
         gui = new GUI();
-
-        for (int i = 0; i < 40; i++) {
-            landedOn[i] = false;
-        }
-
     }
 
     //Starts game
-    public void startGame() throws IOException {
+    public void startGame() throws Exception {
+        //Load squares
+        Square.initializeSquares();;
         //Fixes gui
         initializeGui();
         //Player creation
@@ -78,33 +74,26 @@ public class Game {
         while(true){
             gui.getUserButtonPressed(aPlayers[currentPlayer].name + " Roll dice: "," Roll ");
 
-
             dice.roll();
             dice.rota();
             gui.setDice(dice.getDie1(),dice.getRot1(), dice.getDie2(), dice.getRot2());
             int dices = dice.getTotal();
 
-            aPlayers[currentPlayer].currentPosition =aPlayers[currentPlayer].currentPosition +dice.getTotal();
+            int prevPosition = aPlayers[currentPlayer].currentPosition;
+            aPlayers[currentPlayer].currentPosition = aPlayers[currentPlayer].currentPosition + dice.getTotal();
             if (aPlayers[currentPlayer].currentPosition > 39) {
-                aPlayers[currentPlayer].currentPosition -= 40;
+                aPlayers[currentPlayer].currentPosition -= 39;
             }
 
+            players[currentPlayer].getCar().setPosition(gui.getFields()[aPlayers[currentPlayer].currentPosition]);
 
-
-            GUI_Field field  = players[currentPlayer].getCar().getPosition();
-            int fieldIndex = 0;
-            for (int i = 0; i < gui.getFields().length; i++) {
-                if (gui.getFields()[i] == field) {
-                    fieldIndex = i;
-
-                }
+            if (aPlayers[currentPlayer].currentPosition < prevPosition) {
+                // passeret start
+                aPlayers[currentPlayer].balance += 2000;
             }
-
-            players[currentPlayer].getCar().setPosition(gui.getFields()[(fieldIndex + dices)%gui.getFields().length]);
-
-            System.out.println(aPlayers[currentPlayer].currentPosition);
 
             landOnSquare();
+
             for (int i=0; i<players.length;i++) {
                 players[i].setBalance(aPlayers[i].balance);
             }
@@ -113,99 +102,17 @@ public class Game {
             if (currentPlayer == players.length) {
                 currentPlayer = 0;
             }
-
         }
 
     }
 
-    public void landOnSquare() throws IOException {
-        //If player lands on street
-        String type;
+    public void landOnSquare() {
+
         Player aCurrentPlayer = aPlayers[currentPlayer];
         int currentPosition = aCurrentPlayer.currentPosition;
-        int anyPosition;
-        type=squares.getSquare(aCurrentPlayer.currentPosition, aCurrentPlayer);
-
-        if ((type).equals(" street")){
-
-
-            //initiates square landed on
-            if (!landedOn[currentPosition]) {
-                landedOn[currentPosition] = true;
-                squares.properties[currentPosition] = new Property(currentPosition);
-
-            }
-
-            //goes to property
-            if (!squares.properties[currentPosition].owned){
-
-                if (gui.getUserButtonPressed(aCurrentPlayer.name + " do you want to buy this square ", " Yes ", " No ").equals(" Yes ")){
-                    aCurrentPlayer.balance=aCurrentPlayer.balance-squares.properties[currentPosition].getPrice();
-                    squares.properties[currentPosition].owned=true;
-                    squares.properties[currentPosition].ownedBy=currentPlayer;
-
-                    if (aCurrentPlayer.balance < squares.properties[currentPosition].getPrice()) {
-                        gui.showMessage(" Not Enough Money: ");
-                    }
-                    else {
-                        gui.showMessage(" You bought " + squares.properties[currentPosition].name);
-                    }
-                    return;
-                }
-                else {
-                    return;
-                }
-            }
-            if (squares.properties[currentPosition].ownedBy==currentPlayer){
-                System.out.println(" you landed on your own square ");
-
-            }
-            if(!squares.properties[currentPosition].mortgaged){
-                int loss = squares.properties[currentPosition].getRent();
-                aCurrentPlayer.balance=aCurrentPlayer.balance-loss;
-                System.out.println(" you landed on " + squares.properties[currentPosition].name + ":");
-                aPlayers[squares.properties[currentPosition].ownedBy].balance=aPlayers[squares.properties[currentPosition].ownedBy].balance+loss;
-
-                if (aCurrentPlayer.balance < squares.properties[currentPosition].getRent()) {
-                    gui.showMessage( " Get the money by monday: ");
-
-                }
-                /**
-                else if (aCurrentPlayer.any == squares.getSquare() {
-
-
-                }
-                 **/
-                return;
-            }
-
-
-
-        }
-
-        //If player lands on chance
-        if ((type).equals(" chance")){
-            System.out.println("You landed on chance");
-        }
-        //if player lands on tax
-        if ((type).equals(" tax")){
-            System.out.println("You landed on tax");
-        }
-        if ((type).equals(" ferry")){
-            System.out.println("You landed on ferry");
-        }
-        if ((type).equals(" jail")){
-            System.out.println("You landed on jail");
-        }
-        if ((type).equals(" brewery")){
-            System.out.println("You landed on brewery");
-        }
-        if ((type).equals(" refugee")){
-            System.out.println("You landed on refugee");
-        }
-
+        Square square = Square.squares[currentPosition];
+        square.handlePlayer(this);
     }
-
 
 
     public void initializeGui (){
@@ -221,8 +128,8 @@ public class Game {
         field.setDescription("Receive $2,000 when passing start");
 
         field = gui.getFields()[1];
-        field.setTitle("Rødovrevej");
-        field.setSubText("$1,200");
+        field.setTitle(Square.squares[1].name);
+        field.setSubText("$"+((Street)Square.squares[1]).price);// "$1,200");
         field.setDescription(
                         "Rent:     $50          \\n " +
                         "1 house:  $250         \\n " +
