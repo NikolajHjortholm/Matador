@@ -3,15 +3,17 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 
-public abstract class Square {
+public abstract class  Square {
 
     public static Square[] squares = new Square[40];
+
+    public static int streetGroups[][] = new int[8][3];
 
     public static Parking parking = null;
 
     static String path = "src/main/java/files/fields.csv";
 
-    public static int rName=0, rPosition=1, rType=2, rPrice=3, rHousePrice=4, rRent0=5, rRent1=6, rRent2=7, rRent3=8, rRent4=9, rRent5=10;
+    public static int rName=0, rPosition=1, rType=2, rPrice=3, rHousePrice=4, rRent0=5, rRent1=6, rRent2=7, rRent3=8, rRent4=9, rRent5=10, rGroup=11, rMortgageValue=12;
 
     public String name;
     public int position;
@@ -38,7 +40,7 @@ public abstract class Square {
                 square = new Street(values);
             }
             else if (sq.equals("chance")) {
-                square = new Chance(values);
+                square = new Chance();
             }
             else if (sq.equals(("start"))) {
                 square = new Start();
@@ -82,4 +84,14 @@ public abstract class Square {
 
     public abstract void handlePlayer(Game game);
 
+
+    public static void updateSquaresGui(Game game){
+
+
+
+    }
+
 }
+
+
+

@@ -1,7 +1,6 @@
 import gui_fields.GUI_Field;
 import gui_fields.GUI_Player;
 import gui_main.GUI;
-import java.awt.Color;
 
 import java.io.IOException;
 
@@ -21,7 +20,6 @@ public class Game {
     GUI_Field field;
 
 
-
     public Game() {
         gui = new GUI();
     }
@@ -30,7 +28,7 @@ public class Game {
         //Load squares
         Square.initializeSquares();
         //Load ChanceCard
-        Chance.initilizeChance();
+        ChanceCard.initilizeChanceCards();
         //Fixes gui
         initializeGui();
         //Player creation
@@ -43,7 +41,7 @@ public class Game {
 
 
     public static int playerCount = 0;
-    public static GUI_Player[] players;
+    public GUI_Player[] players;
 
     public void createPlayers() {
 
@@ -103,37 +101,45 @@ public class Game {
 
         // Enter main loop for the game
         while(true){
-            gui.getUserButtonPressed(aPlayers[currentPlayer].name + " Roll dice: "," Roll ");
+
+            if(aPlayers[currentPlayer].imprisoned){
+                Prison.getOutOfPrison(this);
+            } else {
+
+                gui.getUserButtonPressed(aPlayers[currentPlayer].name + " Roll dice: ", " Roll ");
 
 
-            dice.roll();
-            dice.rota();
-            gui.setDice(dice.getDie1(),dice.getRot1(), dice.getDie2(), dice.getRot2());
-            int dices = dice.getTotal();
+                dice.roll();
+                dice.rota();
+                gui.setDice(dice.getDie1(), dice.getRot1(), dice.getDie2(), dice.getRot2());
+                int dices = dice.getTotal();
 
-            int prevPosition = aPlayers[currentPlayer].currentPosition;
-            aPlayers[currentPlayer].currentPosition = aPlayers[currentPlayer].currentPosition + dice.getTotal();
-            if (aPlayers[currentPlayer].currentPosition > 39) {
-                aPlayers[currentPlayer].currentPosition -= 39;
+                int prevPosition = aPlayers[currentPlayer].currentPosition;
+                aPlayers[currentPlayer].currentPosition = aPlayers[currentPlayer].currentPosition + dice.getTotal();
+                if (aPlayers[currentPlayer].currentPosition > 39) {
+                    aPlayers[currentPlayer].currentPosition -= 39;
+                }
+
+                Player.updatePlayerGuiPosition(this);
+
+                if (aPlayers[currentPlayer].currentPosition < prevPosition) {
+                    // passeret start
+                    aPlayers[currentPlayer].balance += 2000;
+                }
+
+                landOnSquare();
+
             }
 
-            players[currentPlayer].getCar().setPosition(gui.getFields()[aPlayers[currentPlayer].currentPosition]);
+                for (int i = 0; i < players.length; i++) {
+                    players[i].setBalance(aPlayers[i].balance);
+                }
 
-            if (aPlayers[currentPlayer].currentPosition < prevPosition) {
-                // passeret start
-                aPlayers[currentPlayer].balance += 2000;
-            }
+                currentPlayer++;
+                if (currentPlayer == players.length) {
+                    currentPlayer = 0;
+                }
 
-            landOnSquare();
-
-            for (int i=0; i<players.length;i++) {
-                players[i].setBalance(aPlayers[i].balance);
-            }
-
-            currentPlayer++;
-            if (currentPlayer == players.length) {
-                currentPlayer = 0;
-            }
         }
 
     }
