@@ -75,9 +75,7 @@ public class Street extends Square {
     }
 
 
-    public void setPrice(int price) {
-        this.price = price;
-    }
+
 
     public int getHousePrice() {
         return housePrice;
