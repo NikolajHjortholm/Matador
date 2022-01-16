@@ -18,6 +18,7 @@ public class Street extends Square {
         groupOwned = false;
         level = 0;
 
+        // Puts in information from fields.csv
         position = Integer.parseInt((values[rPosition]));
         price = Integer.parseInt((values[rPrice]));
         housePrice = Integer.parseInt((values[rHousePrice]));
@@ -32,7 +33,6 @@ public class Street extends Square {
 
         for (int i=0; i<3; i++) {
             if ((streetGroups[group][i] == 0)) {
-                //true on null, empty string, or white space only. Do something here
                 streetGroups[group][i] = position;
                 break;
             } else {
@@ -47,6 +47,7 @@ public class Street extends Square {
 
     public int getRent() {
 
+        // Based on level (houses), the streets rent increases
         switch(level) {
             case 0:
                 if (groupOwned){
@@ -85,18 +86,23 @@ public class Street extends Square {
         this.housePrice = housePrice;
     }
 
+    // Handles player landing on square
     public void handlePlayer(Game game) {
         Player aCurrentPlayer = game.aPlayers[game.currentPlayer];
         int currentPosition = aCurrentPlayer.currentPosition;
         int anyPosition;
 
-        //goes to property
+        // If company not owned
         if (!owned) {
 
+            // Asks if player wants to buy company
             if (game.gui.getUserButtonPressed(aCurrentPlayer.name + " do you want to buy "+name, " Yes ", " No ").equals(" Yes ")){
+
+                // Checks if player has enough money
                 if (aCurrentPlayer.balance - getPrice() < 0) {
                     game.gui.showMessage(" Not Enough Money: ");
                 }
+
                 //Player buys street
                 else {
                     aCurrentPlayer.balance=aCurrentPlayer.balance-getPrice();
@@ -111,14 +117,21 @@ public class Street extends Square {
                 }
             }
         }
+        // If company owned by current player
         else if (ownedBy == game.currentPlayer) {
             game.gui.showMessage(" You landed on your own square "+name);
         }
+
+        // If company owned by another player
         else if (mortgaged) {
             int loss = getRent();
+
+            // Player can't pay and loses game
             if (aCurrentPlayer.balance < getRent()) {
                 game.gui.showMessage( " You dont have enough money, and lost: ");
             }
+
+            //Player gives rent to player who ones the company
             else {
                 aCurrentPlayer.balance = aCurrentPlayer.balance - loss;
                 game.aPlayers[ownedBy].balance += loss;
@@ -128,6 +141,7 @@ public class Street extends Square {
 
     }
 
+    // Updates square gui
     public void updateSquareGui(Game game){
 
         Game.gui.getFields()[game.aPlayers[game.currentPlayer].currentPosition].setBackGroundColor(game.players[game.currentPlayer].getCar().getPrimaryColor());

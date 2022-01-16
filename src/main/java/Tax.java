@@ -1,5 +1,6 @@
 public class Tax extends Square {
 
+    // Player lands on tax and pays 10% of balance
     public void handlePlayer(Game game) {
         Player player = game.aPlayers[game.currentPlayer];
         player.balance *= 0.9;
