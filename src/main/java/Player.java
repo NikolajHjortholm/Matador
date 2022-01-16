@@ -27,6 +27,7 @@ public class Player {
 
     }
 
+    // Updates player position on gui
     public static void updatePlayerGuiPosition(Game game){
 
         game.players[game.currentPlayer].getCar().setPosition(game.gui.getFields()[game.aPlayers[game.currentPlayer].currentPosition]);
