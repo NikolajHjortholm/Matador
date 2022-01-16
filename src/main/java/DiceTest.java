@@ -16,6 +16,7 @@ public class DiceTest {
     @Test
     @DisplayName("Test dice 1")
     public void Test() {
-        Assert.assertEquals(0,dice.getDie1());
+        Assert.assertEquals(1,dice.getDie1());
+        Assert.assertEquals(1,dice.getDie2());
     }
 }
