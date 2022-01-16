@@ -66,7 +66,6 @@ public class Game {
             Game.gui.addPlayer(player);
             GUI_Field field = Game.gui.getFields()[0];
             player.getCar().setPosition(field);
-            System.out.println(players[i]);
 
             switch(i) {
                 case 0:
