@@ -117,7 +117,7 @@ public class Street extends Square {
         else if (mortgaged) {
             int loss = getRent();
             if (aCurrentPlayer.balance < getRent()) {
-                game.gui.showMessage( " Get the money by monday: ");
+                game.gui.showMessage( " You dont have enough money, and lost: ");
             }
             else {
                 aCurrentPlayer.balance = aCurrentPlayer.balance - loss;

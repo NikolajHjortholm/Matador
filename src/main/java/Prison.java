@@ -9,7 +9,7 @@ public class Prison extends Square {
             game.gui.showMessage(" You went to prison on a visit ");
         }
         if (position == 31) {
-            game.gui.showMessage(" You get imprisoned ");
+            game.gui.showMessage(" You got imprisoned ");
             game.aPlayers[game.currentPlayer].currentPosition = 10;
             Player.updatePlayerGuiPosition(game);
             game.aPlayers[game.currentPlayer].imprisoned = true;
