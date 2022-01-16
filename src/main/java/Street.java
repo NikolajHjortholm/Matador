@@ -75,9 +75,7 @@ public class Street extends Square {
     }
 
 
-    public void setPrice(int price) {
-        this.price = price;
-    }
+
 
     public int getHousePrice() {
         return housePrice;
@@ -119,7 +117,7 @@ public class Street extends Square {
         else if (mortgaged) {
             int loss = getRent();
             if (aCurrentPlayer.balance < getRent()) {
-                game.gui.showMessage( " Get the money by monday: ");
+                game.gui.showMessage( " You dont have enough money, and lost: ");
             }
             else {
                 aCurrentPlayer.balance = aCurrentPlayer.balance - loss;

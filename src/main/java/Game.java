@@ -66,7 +66,6 @@ public class Game {
             Game.gui.addPlayer(player);
             GUI_Field field = Game.gui.getFields()[0];
             player.getCar().setPosition(field);
-            System.out.println(players[i]);
 
             switch(i) {
                 case 0:
@@ -124,7 +123,7 @@ public class Game {
 
                 if (aPlayers[currentPlayer].currentPosition < prevPosition) {
                     // passeret start
-                    aPlayers[currentPlayer].balance += 2000;
+                    aPlayers[currentPlayer].balance += 4000;
                 }
 
                 landOnSquare();
@@ -163,7 +162,7 @@ public class Game {
         field = gui.getFields()[0];
         //field.setTitle("My title");
         field.setSubText("");
-        field.setDescription("Receive $2,000 when passing start");
+        field.setDescription("Receive $4,000 when passing start");
 
         field = gui.getFields()[1];
         field.setTitle(Square.squares[1].name);
