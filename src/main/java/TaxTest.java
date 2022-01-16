@@ -7,7 +7,7 @@ public class TaxTest {
 
     @Test
     public void TestTax() {
-        Tax t = new Tax();
-        Assert.assertEquals(100, t.calculateTax(1000));
+        Tax tax = new Tax();
+        Assert.assertEquals(100, tax.calculateTax(1000));
     }
 }
